@@ -159,7 +159,22 @@ WHERE streamed_on_spotify > streamed_on_youtube
 -- Data Analysis - Hard Category---
 -----------------------------------
 
---Q11. **Find the top 3 most-viewed tracks for each artist using window functions.**
+-- Q11. **Find tracks where the energy-to-liveness ratio is greater than 1.2.**
+```sql
+SELECT track, energy, liveness, (energy / liveness) AS energy_to_liveness_ratio
+FROM spotify
+WHERE (energy / liveness) > 1.2;
+
+```
+
+-- Q12. **Find tracks where the energy-to-liveness ratio is greater than 1.2.**
+```sql
+SELECT track, views, likes,
+       SUM(likes) OVER (ORDER BY views) AS cumulative_likes
+FROM spotify;
+```
+
+--Q13. **Find the top 3 most-viewed tracks for each artist using window functions.**
 ```sql
 WITH ranking_artist 
 AS 
@@ -170,21 +185,6 @@ GROUP BY 1, 2
 ORDER BY 1, 3 DESC) 
 SELECT * FROM ranking_artist
 WHERE rank <= 3;
-```
-
--- Q12. **Find tracks where the energy-to-liveness ratio is greater than 1.2.**
-```sql
-SELECT track, energy, liveness, (energy / liveness) AS energy_to_liveness_ratio
-FROM spotify
-WHERE (energy / liveness) > 1.2;
-
-```
-
--- Q13. **Find tracks where the energy-to-liveness ratio is greater than 1.2.**
-```sql
-SELECT track, views, likes,
-       SUM(likes) OVER (ORDER BY views) AS cumulative_likes
-FROM spotify;
 ```
 
 --Q114. **Write a query to find tracks where the liveness score is above the average.**
