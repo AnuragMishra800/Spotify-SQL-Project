@@ -167,14 +167,22 @@ WHERE (energy / liveness) > 1.2;
 
 ```
 
--- Q12. **Find tracks where the energy-to-liveness ratio is greater than 1.2.**
+-- Q12. **Calculate the cumulative sum of likes for tracks ordered by the number of views, using window functions.**
 ```sql
 SELECT track, views, likes,
        SUM(likes) OVER (ORDER BY views) AS cumulative_likes
 FROM spotify;
 ```
 
---Q13. **Find the top 3 most-viewed tracks for each artist using window functions.**
+--Q113. **Write a query to find tracks where the liveness score is above the average.**
+```sql
+SELECT track, liveness
+FROM spotify
+WHERE liveness > (SELECT AVG(liveness) FROM spotify);
+```
+
+
+--Q14. **Find the top 3 most-viewed tracks for each artist using window functions.**
 ```sql
 WITH ranking_artist 
 AS 
@@ -187,12 +195,6 @@ SELECT * FROM ranking_artist
 WHERE rank <= 3;
 ```
 
---Q114. **Write a query to find tracks where the liveness score is above the average.**
-```sql
-SELECT track, liveness
-FROM spotify
-WHERE liveness > (SELECT AVG(liveness) FROM spotify);
-```
 
 --Q15. **Use a `WITH` clause to calculate the difference between the highest and lowest energy values for tracks in each album.**
 ```sql
