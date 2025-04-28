@@ -174,7 +174,7 @@ SELECT track, views, likes,
 FROM spotify;
 ```
 
---Q113. **Write a query to find tracks where the liveness score is above the average.**
+--Q13. **Write a query to find tracks where the liveness score is above the average.**
 ```sql
 SELECT track, liveness
 FROM spotify
