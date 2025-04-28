@@ -66,33 +66,7 @@ In advanced stages, the focus shifts to improving query performance. Some optimi
   
 ---
 
-## 13 Practice Questions
-
------------------------------------
--- Data Analysis - Easy Category---
------------------------------------
-
--- Q1. Retrieve the names of all tracks that have more than 1 billion streams.
-SELECT * FROM spotify
-WHERE stream > 1000000000;
-
--- Q2. List all albums along with their respective artists.
-SELECT DISTINCT album, artist FROM spotify
-ORDER BY 1;
-
--- Q3. Get the total number of comments for tracks where licensed = TRUE.
-SELECT SUM(comments) AS total_comments FROM spotify 
-WHERE licensed = 'true';
-
--- Q4. Find all tracks that belong to the album type single.
-SELECT track, album_type FROM spotify
-WHERE album_type = 'single';
-
--- Q5. Count the total number of tracks by each artist.
-SELECT artist, COUNT(track) FROM spotify
-GROUP BY artist
-ORDER BY 2 DESC;
-
+## 15 Practice Questions
 
 -----------------------------------
 -- Data Analysis - Easy Category---
@@ -198,14 +172,29 @@ SELECT * FROM ranking_artist
 WHERE rank <= 3;
 ```
 
---Q12. **Write a query to find tracks where the liveness score is above the average.**
+-- Q12. **Find tracks where the energy-to-liveness ratio is greater than 1.2.**
+```sql
+SELECT track, energy, liveness, (energy / liveness) AS energy_to_liveness_ratio
+FROM spotify
+WHERE (energy / liveness) > 1.2;
+
+```
+
+-- Q13. **Find tracks where the energy-to-liveness ratio is greater than 1.2.**
+```sql
+SELECT track, views, likes,
+       SUM(likes) OVER (ORDER BY views) AS cumulative_likes
+FROM spotify;
+```
+
+--Q114. **Write a query to find tracks where the liveness score is above the average.**
 ```sql
 SELECT track, liveness
 FROM spotify
 WHERE liveness > (SELECT AVG(liveness) FROM spotify);
 ```
 
---Q13. **Use a `WITH` clause to calculate the difference between the highest and lowest energy values for tracks in each album.**
+--Q15. **Use a `WITH` clause to calculate the difference between the highest and lowest energy values for tracks in each album.**
 ```sql
 WITH cte
 AS
